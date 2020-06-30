@@ -1,6 +1,7 @@
 import json
 
 
+def makeJSON():
     users = {
         "lamitron": {
             "highscore": 15000
@@ -9,3 +10,5 @@ import json
             "highscore": 24360
         }
     }
+
+makeJSON()
