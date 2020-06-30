@@ -1,14 +1,8 @@
 import json
 
 
-def makeJSON():
-    users = {
-        "lamitron": {
-            "highscore": 15000
-        },
-        "NullPtr": {
-            "highscore": 24360
-        }
-    }
+def makeJSON(users):
+    jsondump = json.dumps(users)
 
-makeJSON()
+    with open('src/data/users.json', 'r+') as file:
+        file.writelines(jsondump)
