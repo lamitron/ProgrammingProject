@@ -1,5 +1,4 @@
 import tkinter
-import json
 import getFiles
 import application
 
@@ -33,9 +32,9 @@ def login(root):
 
 
 def loginproc(username, password, window, root):
-    users = getFiles.getuserfile()
+    users = getFiles.get_user_file()
     if username in users['Users']:
         if password == users['Users'][username]['password']:
             window.destroy()
             root.destroy()
-            application.application(username)
+            application.menu(username)

@@ -44,10 +44,10 @@ def signup():
 
 def signupcode(email, username, password, confirmpassword, window):
     if password == confirmpassword:
-        users = getFiles.getuserfile()
+        users = getFiles.get_user_file()
         new_user_dict = {'email': email, 'password':  password}
         users['Users'][username] = new_user_dict
-        getFiles.makeuserfile(users)
+        getFiles.make_user_file(users)
 
         window.destroy()
     else:
