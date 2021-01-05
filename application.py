@@ -1,23 +1,28 @@
-import tkinter
-import getFiles
 import random
+import tkinter
+
+import getFiles
 
 
-def song_guesses(guess, username, song, window, guesses=[0]):
+def song_guesses(guess, username, song, window, guesses=None):
+    if guesses is None:
+        guesses = [0]
     if guess.lower() == song.lower():
         window.delete('guessText')
         scores = getFiles.get_scores()
         if guesses[0] == 0:
             scores['Scores'][username] = 1000
-            window.create_text(25, 150, text='Correct! You Win! Score: 1000', font=('TkDefaultFont', 10), anchor='w')
+            window.create_text(25, 150, text='Correct! You Win! Score: 1000', font=('TkDefaultFont', 10), anchor='w',
+                               tag='winText')
         else:
             if username in scores['Scores']:
                 window.create_text(25, 150, text='Correct! You Win! Score: 500', font=('TkDefaultFont', 10),
-                                   anchor='w')
+                                   anchor='w', tag='winText')
                 pass
             else:
                 scores['Scores'][username] = 500
-                window.create_text(25, 150, text='Correct! You Win! Score: 500', font=('TkDefaultFont', 10), anchor='w')
+                window.create_text(25, 150, text='Correct! You Win! Score: 500', font=('TkDefaultFont', 10), anchor='w',
+                                   tag='winText')
         getFiles.write_scores(scores)
     elif guesses[0] == 1:
         window.delete('guessText')
@@ -29,7 +34,7 @@ def song_guesses(guess, username, song, window, guesses=[0]):
                            anchor='w', tag='guessText')
 
 
-def guess_song(username, screen_canvas):
+def guess_song(username, screen_canvas, app_window):
     screen_canvas.delete('all')
     songs = getFiles.get_songs()
     chosen_song = list(songs['Songs'])[random.randint(0, len(list(
@@ -46,6 +51,8 @@ def guess_song(username, screen_canvas):
                                                                 screen_canvas))
     screen_canvas.create_window(300, 100, window=submit_button, anchor='w')
     submit_field.bind('<Return>', lambda x: song_guesses(submit_field.get(), username, chosen_song, screen_canvas))
+    back_button = tkinter.Button(screen_canvas, text="Back", command=lambda: return_to_menu(username, app_window))
+    screen_canvas.create_window(25, 200, window=back_button, anchor='w')
 
 
 def show_songs(screen_canvas):
@@ -82,10 +89,15 @@ def menu(username):
     show_song_button = tkinter.Button(screen_canvas, text='Show Songs', command=lambda: show_songs(screen_canvas))
     screen_canvas.create_window(25, 50, window=show_song_button, anchor='w')
     guess_song_button = tkinter.Button(screen_canvas, text='Guess Songs',
-                                       command=lambda: guess_song(username, screen_canvas))
+                                       command=lambda: guess_song(username, screen_canvas, app_window))
     screen_canvas.create_window(120, 50, window=guess_song_button, anchor='w')
     high_score_button = tkinter.Button(screen_canvas, text='Show Highscores',
                                        command=lambda: show_high_scores(screen_canvas))
     screen_canvas.create_window(200, 50, window=high_score_button, anchor='w')
 
     app_window.mainloop()
+
+
+def return_to_menu(username, app_window):
+    app_window.destroy()
+    menu(username)

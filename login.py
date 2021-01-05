@@ -1,6 +1,7 @@
 import tkinter
-import getFiles
+
 import application
+import getFiles
 
 
 def login(root):
@@ -23,7 +24,8 @@ def login(root):
     password = tkinter.Entry(login_canvas, show='•')
     login_canvas.create_window(190, 33, window=password, width=200)
 
-    login_button = tkinter.Button(login_canvas, text='Login', command=lambda: loginproc(username.get(), password.get(), login_window, root))
+    login_button = tkinter.Button(login_canvas, text='Login', command=lambda: loginproc(username.get(), password.get(),
+                                                                                        login_window, root))
     login_canvas.create_window(150, 60, window=login_button)
 
     password.bind('<Return>', lambda x: loginproc(username.get(), password.get(), login_window, root))
