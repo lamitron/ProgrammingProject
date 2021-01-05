@@ -25,9 +25,11 @@ def song_guesses(guess, username, song, window, guesses=None):
                                    tag='winText')
         getFiles.write_scores(scores)
     elif guesses[0] == 1:
+        window.delete('winText')
         window.delete('guessText')
         window.create_text(25, 150, text='Incorrect! Game Over!', font=('TkDefaultFont', 10), anchor='w')
     else:
+        window.delete('winText')
         window.delete('guessText')
         guesses[0] += 1
         window.create_text(25, 150, text='Incorrect! Guess ' + str(guesses[0]) + ' Of 2!', font=('TkDefaultFont', 10),
