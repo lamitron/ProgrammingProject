@@ -40,7 +40,8 @@ def guess_song(username, screen_canvas, app_window):
     screen_canvas.delete('all')
     songs = getFiles.get_songs()
     chosen_song = list(songs['Songs'])[random.randint(0, len(list(
-        songs['Songs'])) - 1)]  # Converts to list to find a random song as dicts are not searchable by int (lists are)
+        songs['Songs'])) - 1)]  # Converts to list to find a random song as dicts
+    # are not searchable by int (lists are)
     screen_canvas.create_text(25, 25, text='Guess the Song:', font=('TkDefaultFont', 10), anchor='w')
     screen_canvas.create_text(25, 50, text='Artist: ' + songs['Songs'][chosen_song]['artist'],
                               font=('TkDefaultFont', 10), anchor='w')
@@ -57,7 +58,7 @@ def guess_song(username, screen_canvas, app_window):
     screen_canvas.create_window(25, 200, window=back_button, anchor='w')
 
 
-def show_songs(screen_canvas):
+def show_songs(screen_canvas, username, app_window):
     screen_canvas.delete('all')
     songs = getFiles.get_songs()
     screen_canvas.create_text(25, 20, text='Song', font=('TkDefaultFont', 12), anchor='w')
@@ -68,9 +69,11 @@ def show_songs(screen_canvas):
         screen_canvas.create_text(200, (i * 25) + 50, text=songs['Songs'][list(songs['Songs'])[i]]['artist'],
                                   anchor='w')  # It looks horrible but it works, ok?
         screen_canvas.create_text(300, (i * 25) + 50, text=songs['Songs'][list(songs['Songs'])[i]]['album'], anchor='w')
+    back_button = tkinter.Button(screen_canvas, text="Back", command=lambda: return_to_menu(username, app_window))
+    screen_canvas.create_window(25, (i * 25) + 100, window=back_button, anchor='w')
 
 
-def show_high_scores(screen_canvas):
+def show_high_scores(screen_canvas, username, app_window):
     screen_canvas.delete('all')
     scores = getFiles.get_scores()
     screen_canvas.create_text(25, 20, text='User', font=('TkDefaultFont', 12), anchor='w')
@@ -80,6 +83,8 @@ def show_high_scores(screen_canvas):
         if scores['Scores'][list(scores['Scores'])[i]] == 1000:
             screen_canvas.create_text(25, (i * 25) + 50, text=list(scores['Scores'])[i], anchor='w')
             screen_canvas.create_text(100, (i * 25) + 50, text=scores['Scores'][list(scores['Scores'])[i]], anchor='w')
+    back_button = tkinter.Button(screen_canvas, text="Back", command=lambda: return_to_menu(username, app_window))
+    screen_canvas.create_window(25, (i * 25) + 100, window=back_button, anchor='w')
 
 
 def menu(username):
@@ -88,13 +93,15 @@ def menu(username):
     screen_canvas.pack()
     app_window.title('MusicGame')
     screen_canvas.create_text(25, 25, text='Select Your Option', font=('TkDefaultFont', 12), anchor='w')
-    show_song_button = tkinter.Button(screen_canvas, text='Show Songs', command=lambda: show_songs(screen_canvas))
+    show_song_button = tkinter.Button(screen_canvas, text='Show Songs', command=lambda: show_songs(screen_canvas,
+                                                                                                   username,
+                                                                                                   app_window))
     screen_canvas.create_window(25, 50, window=show_song_button, anchor='w')
     guess_song_button = tkinter.Button(screen_canvas, text='Guess Songs',
                                        command=lambda: guess_song(username, screen_canvas, app_window))
     screen_canvas.create_window(120, 50, window=guess_song_button, anchor='w')
     high_score_button = tkinter.Button(screen_canvas, text='Show Highscores',
-                                       command=lambda: show_high_scores(screen_canvas))
+                                       command=lambda: show_high_scores(screen_canvas, username, app_window))
     screen_canvas.create_window(200, 50, window=high_score_button, anchor='w')
 
     app_window.mainloop()
