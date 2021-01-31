@@ -14,15 +14,14 @@ def song_guesses(guess, username, song, window, guesses=None):
             scores['Scores'][username] = 1000
             window.create_text(25, 150, text='Correct! You Win! Score: 1000', font=('TkDefaultFont', 10), anchor='w',
                                tag='winText')
+        elif username in scores['Scores']:
+            window.create_text(25, 150, text='Correct! You Win! Score: 500', font=('TkDefaultFont', 10),
+                               anchor='w', tag='winText')
+            pass
         else:
-            if username in scores['Scores']:
-                window.create_text(25, 150, text='Correct! You Win! Score: 500', font=('TkDefaultFont', 10),
-                                   anchor='w', tag='winText')
-                pass
-            else:
-                scores['Scores'][username] = 500
-                window.create_text(25, 150, text='Correct! You Win! Score: 500', font=('TkDefaultFont', 10), anchor='w',
-                                   tag='winText')
+            scores['Scores'][username] = 500
+            window.create_text(25, 150, text='Correct! You Win! Score: 500', font=('TkDefaultFont', 10), anchor='w',
+                               tag='winText')
         getFiles.write_scores(scores)
     elif guesses[0] == 1:
         window.delete('winText')
